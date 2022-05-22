@@ -3,7 +3,6 @@ import { getRedirectResult } from "firebase/auth";
 import {
   auth,
   signInWithGoogleRedirect,
-  creatUserDocumentFromAuth,
   signInAuthUserWithEmailAndPassword,
 } from "../../utils/firebase.util";
 import FormInput from "../../components/FormInput/FormInput";
@@ -24,10 +23,7 @@ const SignInForm = () => {
   };
 
   const logGoogleUserRedirect = async () => {
-    const res = await getRedirectResult(auth);
-    if (res) {
-      await creatUserDocumentFromAuth(res.user);
-    }
+    await getRedirectResult(auth);
   };
 
   useEffect(() => {
@@ -43,8 +39,7 @@ const SignInForm = () => {
     e.preventDefault();
 
     try {
-      const res = await signInAuthUserWithEmailAndPassword(email, password);
-      console.log(res);
+      await signInAuthUserWithEmailAndPassword(email, password);
       resetFormFields();
     } catch (error) {
       if (error.code === "auth/user-not-found") {
